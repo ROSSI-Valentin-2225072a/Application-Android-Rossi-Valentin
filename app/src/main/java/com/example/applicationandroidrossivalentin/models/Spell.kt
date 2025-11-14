@@ -57,7 +57,13 @@ data class Spell(
     val classes: List<ApiReference> = emptyList(),
 
     @SerialName("subclasses")
-    val subclasses: List<ApiReference> = emptyList()
+    val subclasses: List<ApiReference> = emptyList(),
+
+    @SerialName("url")
+    val url: String? = null,
+
+    @SerialName("updated_at")
+    val updatedAt: String? = null
 )
 
 @Serializable

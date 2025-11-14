@@ -10,6 +10,7 @@ import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
+import io.ktor.client.request.get
 import io.ktor.client.request.request
 import io.ktor.serialization.kotlinx.json.json
 
@@ -30,9 +31,9 @@ class SpellRepository {
         }
     }
 
-    suspend fun getSpell(index: Int) : Spell {
+    suspend fun getSpell(index: String) : Spell {
         val url = "https://www.dnd5eapi.co/api/2014/spells/$index"
 
-        return client.request(url).body()
+        return client.get(url).body()
     }
 }
