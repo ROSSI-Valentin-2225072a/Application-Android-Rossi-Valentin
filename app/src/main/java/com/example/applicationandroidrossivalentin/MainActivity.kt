@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Main(modifier: Modifier = Modifier) { // TODO : remplacer par des boutons
+fun Main(modifier: Modifier = Modifier) {
 
     val backStack = remember { mutableStateListOf<Any>(DestinationHome()) }
 

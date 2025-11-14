@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 fun CharacterSheets(onClickHome: () -> Unit) {
 
     Column {
-        Text("Les fiches perso")
+        Text("Character Sheets")
 
         Button(onClick = onClickHome) {
             Text("back")
