@@ -98,3 +98,9 @@ data class ApiReference(
     @SerialName("url")
     val url: String = ""
 )
+
+@Serializable
+data class Spells(
+    val count: Int = 0,
+    val results: List<Spell> = listOf()
+)
