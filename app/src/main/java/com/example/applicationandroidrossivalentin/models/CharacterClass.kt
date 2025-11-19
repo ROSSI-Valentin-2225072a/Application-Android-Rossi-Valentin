@@ -6,64 +6,64 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CharacterClass(
     @SerialName("index")
-    val index: String? = null,
+    val index: String = "",
 
     @SerialName("name")
-    val name: String? = null,
+    val name: String = "",
 
     @SerialName("hit_die")
-    val hitDie: Int? = null,
+    val hitDie: Int = 0,
 
     @SerialName("proficiency_choices")
-    val proficiencyChoices: List<ProficiencyChoice>? = null,
+    val proficiencyChoices: List<ProficiencyChoice> = emptyList(),
 
     @SerialName("proficiencies")
-    val proficiencies: List<Reference>? = null,
+    val proficiencies: List<Reference> = emptyList(),
 
     @SerialName("saving_throws")
-    val savingThrows: List<Reference>? = null,
+    val savingThrows: List<Reference> = emptyList(),
 
     @SerialName("starting_equipment")
-    val startingEquipment: List<Equipment>? = null,
+    val startingEquipment: List<Equipment> = emptyList(),
 
     @SerialName("starting_equipment_options")
-    val startingEquipmentOptions: List<EquipmentOption>? = null,
+    val startingEquipmentOptions: List<EquipmentOption> = emptyList(),
 
     @SerialName("class_levels")
-    val classLevels: String? = null,
+    val classLevels: String = "",
 
     @SerialName("multi_classing")
-    val multiClassing: MultiClassing? = null,
+    val multiClassing: MultiClassing = MultiClassing(),
 
     @SerialName("subclasses")
-    val subclasses: List<Reference>? = null,
+    val subclasses: List<Reference> = emptyList(),
 
     @SerialName("url")
-    val url: String? = null,
+    val url: String = "",
 
     @SerialName("updated_at")
-    val updatedAt: String? = null
+    val updatedAt: String = ""
 )
 
 @Serializable
 data class ProficiencyChoice(
     @SerialName("desc")
-    val desc: String,
+    val desc: String = "",
 
     @SerialName("choose")
-    val choose: Int,
+    val choose: Int = 0,
 
     @SerialName("type")
-    val type: String,
+    val type: String = "",
 
     @SerialName("from")
-    val from: OptionSet
+    val from: OptionSet = OptionSet()
 )
 
 @Serializable
 data class OptionSet(
     @SerialName("option_set_type")
-    val optionSetType: String,
+    val optionSetType: String = "",
 
     @SerialName("options")
     val options: List<Option>? = null,
@@ -75,7 +75,7 @@ data class OptionSet(
 @Serializable
 data class Option(
     @SerialName("option_type")
-    val optionType: String,
+    val optionType: String = "",
 
     @SerialName("item")
     val item: Reference? = null,
@@ -93,74 +93,74 @@ data class Option(
 @Serializable
 data class Reference(
     @SerialName("index")
-    val index: String,
+    val index: String = "",
 
     @SerialName("name")
-    val name: String,
+    val name: String = "",
 
     @SerialName("url")
-    val url: String
+    val url: String = ""
 )
 
 @Serializable
 data class Equipment(
     @SerialName("equipment")
-    val equipment: Reference,
+    val equipment: Reference = Reference(),
 
     @SerialName("quantity")
-    val quantity: Int
+    val quantity: Int = 0
 )
 
 @Serializable
 data class EquipmentOption(
     @SerialName("desc")
-    val desc: String,
+    val desc: String = "",
 
     @SerialName("choose")
-    val choose: Int,
+    val choose: Int = 0,
 
     @SerialName("type")
-    val type: String,
+    val type: String = "",
 
     @SerialName("from")
-    val from: OptionSet
+    val from: OptionSet = OptionSet()
 )
 
 @Serializable
 data class EquipmentChoice(
     @SerialName("desc")
-    val desc: String,
+    val desc: String = "",
 
     @SerialName("choose")
-    val choose: Int,
+    val choose: Int = 0,
 
     @SerialName("type")
-    val type: String,
+    val type: String = "",
 
     @SerialName("from")
-    val from: OptionSet
+    val from: OptionSet = OptionSet()
 )
 
 @Serializable
 data class MultiClassing(
     @SerialName("prerequisites")
-    val prerequisites: List<Prerequisite>,
+    val prerequisites: List<Prerequisite> = emptyList(),
 
     @SerialName("proficiencies")
-    val proficiencies: List<Reference>
+    val proficiencies: List<Reference> = emptyList()
 )
 
 @Serializable
 data class Prerequisite(
     @SerialName("ability_score")
-    val abilityScore: Reference,
+    val abilityScore: Reference = Reference(),
 
     @SerialName("minimum_score")
-    val minimumScore: Int
+    val minimumScore: Int = 0
 )
 
 @Serializable
 data class CharacterClasses(
     val count: Int = 0,
-    val results: List<CharacterClass> = listOf()
+    val results: List<CharacterClass> = emptyList()
 )
