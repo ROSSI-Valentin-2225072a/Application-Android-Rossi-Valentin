@@ -26,8 +26,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.applicationandroidrossivalentin.composants.SpellLevelFilter
 import com.example.applicationandroidrossivalentin.viewmodels.SpellViewModel
 
+//TODO : Ajouter une barre de recherche de sorts
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Spells(onClickHome: () -> Unit) {
@@ -35,7 +37,12 @@ fun Spells(onClickHome: () -> Unit) {
     val viewModel = viewModel<SpellViewModel>()
     val spellList = viewModel.spellList.collectAsStateWithLifecycle()
     val sheetState = rememberModalBottomSheetState()
+    val spellShown = viewModel.spell.collectAsStateWithLifecycle()
+
     var showBottomSheet by remember { mutableStateOf(false) }
+    var expandedDropdown by remember { mutableStateOf(false) }
+    var selectedLevels by remember { mutableStateOf(setOf(0, 1, 2, 3, 4, 5, 6, 7, 8, 9)) }
+
 
     Scaffold (topBar = {
         TopAppBar(
@@ -48,10 +55,16 @@ fun Spells(onClickHome: () -> Unit) {
                     )
                 }
             },
+            actions = {
+                SpellLevelFilter(
+                    selectedLevels,
+                    {selectedLevels = it},
+                )
+
+            }
 
         )
-    },
-        modifier = Modifier.fillMaxSize()
+    }, modifier = Modifier.fillMaxSize()
     ) { innerPadding ->
         Column(modifier = Modifier.padding(innerPadding)) {
             LazyColumn {
@@ -59,7 +72,10 @@ fun Spells(onClickHome: () -> Unit) {
                     ListItem(
                         headlineContent = { Text(spell.name) },
                         supportingContent = { Text("Level ${spell.level}") },
-                        modifier = Modifier.clickable(onClick = { showBottomSheet = true })
+                        modifier = Modifier.clickable(onClick = {
+                            showBottomSheet = true
+                            viewModel.getSpell(spell.index)
+                        })
                     )
                     HorizontalDivider()
                 }
@@ -69,7 +85,7 @@ fun Spells(onClickHome: () -> Unit) {
                     onDismissRequest = { showBottomSheet = false },
                     sheetState = sheetState
                 ) {
-                    Text("yay!")
+                    Text(spellShown.value.name)
                 }
             }
         }

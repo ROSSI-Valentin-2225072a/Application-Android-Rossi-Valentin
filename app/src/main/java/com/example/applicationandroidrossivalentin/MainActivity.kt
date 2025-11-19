@@ -16,8 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
+import com.example.applicationandroidrossivalentin.pages.CharacterClasses
 import com.example.applicationandroidrossivalentin.pages.CharacterSheets
-import com.example.applicationandroidrossivalentin.pages.Classes
 import com.example.applicationandroidrossivalentin.pages.Home
 import com.example.applicationandroidrossivalentin.pages.Races
 import com.example.applicationandroidrossivalentin.pages.Spells
@@ -26,7 +26,7 @@ import com.example.applicationandroidrossivalentin.ui.theme.AppliDND
 class DestinationHome
 class DestinationCharacterSheets
 class DestinationSpells
-class DestinationClasses
+class DestinationCharacterClasses
 class DestinationRaces
 
 
@@ -70,8 +70,8 @@ fun Main(modifier: Modifier = Modifier) {
                                 backStack.add(DestinationCharacterSheets())
                             }, onClickSpells = {
                                 backStack.add(DestinationSpells())
-                            }, onClickClasses = {
-                                backStack.add(DestinationClasses())
+                            }, onClickCharacterClasses = {
+                                backStack.add(DestinationCharacterClasses())
                             }, onClickRaces = {
                                 backStack.add(DestinationRaces())
                             })
@@ -87,8 +87,8 @@ fun Main(modifier: Modifier = Modifier) {
 
                             })
                         }
-                        is DestinationClasses -> NavEntry(key) {
-                            Classes(onClickHome = {
+                        is DestinationCharacterClasses -> NavEntry(key) {
+                            CharacterClasses(onClickHome = {
                                 backStack.removeLastOrNull()
                             })
                         }

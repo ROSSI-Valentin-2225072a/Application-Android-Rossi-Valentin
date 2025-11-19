@@ -28,7 +28,7 @@ class SpellViewModel: ViewModel() {
         }
     }
 
-    private fun getAllSpells() {
+    fun getAllSpells() {
         viewModelScope.launch {
             spellList.value = spellRepository.getAllSpell().results
         }

@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 fun Home(
     onClickCharacterSheets: () -> Unit,
     onClickSpells: () -> Unit,
-    onClickClasses: () -> Unit,
+    onClickCharacterClasses: () -> Unit,
     onClickRaces: () -> Unit) {
 
     Column(
@@ -23,7 +23,7 @@ fun Home(
     ){
         Button(onClick = onClickCharacterSheets) { Text("Character sheets") }
         Button(onClick = onClickSpells) { Text(text = "Spells") }
-        Button(onClick = onClickClasses) { Text(text = "Classes") }
+        Button(onClick = onClickCharacterClasses) { Text(text = "Classes") }
         Button(onClick = onClickRaces) { Text(text = "Races") }
     }
 }

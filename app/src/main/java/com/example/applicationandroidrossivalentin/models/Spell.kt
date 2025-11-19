@@ -41,11 +41,19 @@ data class Spell(
     @SerialName("level")
     val level: Int = 0,
 
+    @SerialName("heal_at_slot_level")
+    val healAtSlotLevel: Map<String, String>? = null,
+
+
     @SerialName("attack_type")
     val attackType: String? = null,
 
     @SerialName("damage")
     val damage: Damage? = null,
+
+    @SerialName("dc")
+    val dc: Dc? = null,
+
 
     @SerialName("area_of_effect")
     val areaOfEffect: AreaOfEffect? = null,
@@ -85,6 +93,15 @@ data class Damage(
 
     @SerialName("damage_at_character_level")
     val damageAtCharacterLevel: Map<String, String>? = null
+)
+
+@Serializable
+data class Dc(
+    @SerialName("dc_type")
+    val dcType: ApiReference? = null,
+
+    @SerialName("dc_success")
+    val dcSuccess: String = ""
 )
 
 @Serializable

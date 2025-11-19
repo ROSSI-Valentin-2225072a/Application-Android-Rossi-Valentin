@@ -6,7 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun Classes(onClickHome: () -> Unit) {
+fun CharacterClasses(onClickHome: () -> Unit) {
 
     Column {
         Text("Classes")
