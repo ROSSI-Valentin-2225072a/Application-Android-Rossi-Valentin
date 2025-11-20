@@ -112,18 +112,6 @@ data class OptionPrerequisite(
 )
 
 @Serializable
-data class Reference(
-    @SerialName("index")
-    val index: String = "",
-
-    @SerialName("name")
-    val name: String = "",
-
-    @SerialName("url")
-    val url: String = ""
-)
-
-@Serializable
 data class Equipment(
     @SerialName("equipment")
     val equipment: Reference = Reference(),
