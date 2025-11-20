@@ -15,7 +15,7 @@ class RaceViewModel: ViewModel() {
     val raceList = MutableStateFlow<List<Race>>(emptyList())
 
     init {
-
+        getAllRaces()
     }
 
     fun getAllRaces() {
