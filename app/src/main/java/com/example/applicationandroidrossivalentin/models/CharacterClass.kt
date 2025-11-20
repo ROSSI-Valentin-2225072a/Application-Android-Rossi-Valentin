@@ -38,6 +38,12 @@ data class CharacterClass(
     @SerialName("subclasses")
     val subclasses: List<Reference> = emptyList(),
 
+    @SerialName("spellcasting")
+    val spellcasting: Spellcasting = Spellcasting(),
+
+    @SerialName("spells")
+    val spells: String = "",
+
     @SerialName("url")
     val url: String = "",
 
@@ -87,7 +93,22 @@ data class Option(
     val of: Reference? = null,
 
     @SerialName("choice")
-    val choice: EquipmentChoice? = null
+    val choice: EquipmentChoice? = null,
+
+    @SerialName("items")
+    val items: List<Option>? = null,
+
+    @SerialName("prerequisites")
+    val prerequisites: List<OptionPrerequisite>? = null
+)
+
+@Serializable
+data class OptionPrerequisite(
+    @SerialName("type")
+    val type: String = "",
+
+    @SerialName("proficiency")
+    val proficiency: Reference? = null
 )
 
 @Serializable
@@ -147,7 +168,10 @@ data class MultiClassing(
     val prerequisites: List<Prerequisite> = emptyList(),
 
     @SerialName("proficiencies")
-    val proficiencies: List<Reference> = emptyList()
+    val proficiencies: List<Reference> = emptyList(),
+
+    @SerialName("proficiency_choices")
+    val proficiencyChoices: List<ProficiencyChoice> = emptyList()
 )
 
 @Serializable
@@ -157,6 +181,27 @@ data class Prerequisite(
 
     @SerialName("minimum_score")
     val minimumScore: Int = 0
+)
+
+@Serializable
+data class Spellcasting(
+    @SerialName("level")
+    val level: Int = 0,
+
+    @SerialName("spellcasting_ability")
+    val spellcastingAbility: Reference = Reference(),
+
+    @SerialName("info")
+    val info: List<Info> = emptyList()
+)
+
+@Serializable
+data class Info(
+    @SerialName("name")
+    val name: String = "",
+
+    @SerialName("desc")
+    val desc: List<String> = emptyList()
 )
 
 @Serializable

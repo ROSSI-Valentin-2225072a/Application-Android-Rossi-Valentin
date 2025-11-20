@@ -38,6 +38,6 @@ class CharacterClassRepository {
     }
 
     suspend fun getCharacterClassByIndex(index: String): CharacterClass {
-        return client.get("$url$index").body()
+        return client.get("$url/$index").body()
     }
 }

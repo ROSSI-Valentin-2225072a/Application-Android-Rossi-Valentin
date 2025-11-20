@@ -1,6 +1,7 @@
 package com.example.applicationandroidrossivalentin.pages
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -12,13 +13,18 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.carousel.HorizontalMultiBrowseCarousel
 import androidx.compose.material3.carousel.rememberCarouselState
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -32,8 +38,13 @@ import com.example.applicationandroidrossivalentin.viewmodels.CharacterClassView
 @Composable
 fun CharacterClasses(onClickHome: () -> Unit) {
 
-    val viewmodel = viewModel<CharacterClassViewModel>()
-    val characterClassesList = viewmodel.characterClassList.collectAsStateWithLifecycle()
+    val viewModel = viewModel<CharacterClassViewModel>()
+    val characterClass = viewModel.characterClass.collectAsStateWithLifecycle()
+    val characterClassesList = viewModel.characterClassList.collectAsStateWithLifecycle()
+    val sheetState = rememberModalBottomSheetState()
+
+    var showBottomSheet by remember { mutableStateOf(false) }
+
 
     Scaffold ( topBar = {
         TopAppBar(
@@ -52,31 +63,43 @@ fun CharacterClasses(onClickHome: () -> Unit) {
         .wrapContentHeight()
         .padding(top = 16.dp, bottom = 16.dp)
     ) { innerPadding ->
-        Column {
-            HorizontalMultiBrowseCarousel(
-                preferredItemWidth = 186.dp,
-                modifier = Modifier.padding(innerPadding),
-                state = rememberCarouselState { characterClassesList.value.size }
-            ) { pos ->
-                val characterClass = characterClassesList.value[pos]
+        HorizontalMultiBrowseCarousel(
+            preferredItemWidth = 186.dp,
+            modifier = Modifier.padding(innerPadding),
+            state = rememberCarouselState { characterClassesList.value.size }
+        ) { pos ->
+            val characterClass = characterClassesList.value[pos]
 
-                val context = LocalContext.current
-                val resourceId = remember(characterClass.index) {
-                    context.resources.getIdentifier(
-                        characterClass.index,
-                        "drawable",
-                        context.packageName
-                    )
-                }
-
+            val context = LocalContext.current
+            val resourceId = remember(characterClass.index) {
+                context.resources.getIdentifier(
+                    characterClass.index,
+                    "drawable",
+                    context.packageName
+                )
+            }
+            Column{
                 Image(
                     modifier = Modifier
                         .height(205.dp)
-                        .maskClip(MaterialTheme.shapes.extraLarge),
+                        .maskClip(MaterialTheme.shapes.extraLarge)
+                        .clickable(onClick = {
+                            showBottomSheet = true
+                            viewModel.getCharacterClassByIndex(characterClass.index)
+                        }),
                     painter = painterResource(id = resourceId),
                     contentDescription = characterClass.name,
                     contentScale = ContentScale.Crop
                 )
+                Text(characterClass.name)
+            }
+        }
+        if(showBottomSheet) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheet = false },
+                sheetState = sheetState
+            ) {
+                Text(characterClass.value.name)
             }
         }
     }
