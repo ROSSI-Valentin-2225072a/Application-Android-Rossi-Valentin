@@ -16,6 +16,8 @@ nav3Core = "1.0.0-rc01"
 lifecycleViewmodelNav3 = "1.0.0-alpha04"
 kotlinxSerializationCore = "1.9.0"
 compose = "1.7.8"
+ksp = "2.2.20-2.0.4"
+room = "2.8.2"
 
 
 [libraries]
@@ -54,8 +56,13 @@ androidx-compose-material-icons-extended = { group = "androidx.compose.material"
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 
+androidx-room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
+androidx-room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
+androidx-room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
