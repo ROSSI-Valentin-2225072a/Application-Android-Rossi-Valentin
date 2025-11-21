@@ -114,7 +114,7 @@ data class OptionPrerequisite(
 @Serializable
 data class Equipment(
     @SerialName("equipment")
-    val equipment: Reference = Reference(),
+    val equipment: Reference? = null,
 
     @SerialName("quantity")
     val quantity: Int = 0
@@ -165,7 +165,7 @@ data class MultiClassing(
 @Serializable
 data class Prerequisite(
     @SerialName("ability_score")
-    val abilityScore: Reference = Reference(),
+    val abilityScore: Reference? = null,
 
     @SerialName("minimum_score")
     val minimumScore: Int = 0
@@ -177,7 +177,7 @@ data class Spellcasting(
     val level: Int = 0,
 
     @SerialName("spellcasting_ability")
-    val spellcastingAbility: Reference = Reference(),
+    val spellcastingAbility: Reference? = null,
 
     @SerialName("info")
     val info: List<Info> = emptyList()
