@@ -10,6 +10,8 @@ lifecycleRuntimeKtx = "2.9.4"
 activityCompose = "1.11.0"
 composeBom = "2025.11.00"
 coilCompose = "3.3.0"
+moshi = "1.15.2"
+moshiKotlin = "1.15.2"
 navigation3Ui = "1.0.0-rc01"
 ktorVersion = "3.3.2"
 nav3Core = "1.0.0-rc01"
@@ -59,6 +61,9 @@ coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version
 androidx-room-compiler = {module = "androidx.room:room-compiler", version.ref = "room"}
 androidx-room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
 androidx-room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+
+moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
+moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
