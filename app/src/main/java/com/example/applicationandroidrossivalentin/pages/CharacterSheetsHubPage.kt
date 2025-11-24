@@ -77,7 +77,6 @@ fun CharacterSheets(
                 .fillMaxSize()
         ) {
             if (characterSheetList.value.isEmpty()) {
-                // Message si aucun personnage
                 Box(
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
@@ -138,7 +137,6 @@ fun CharacterCard(
                 .fillMaxWidth()
                 .padding(16.dp)
         ) {
-            // Nom du personnage
             Text(
                 text = character.name,
                 style = MaterialTheme.typography.titleLarge,
@@ -146,14 +144,12 @@ fun CharacterCard(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            // Race et Classe
             Text(
                 text = "${character.race?.name ?: "Unknown"} ${character.characterClass?.name ?: "Unknown"}",
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            // Niveau
             Text(
                 text = "Level ${character.level}",
                 style = MaterialTheme.typography.bodyMedium,
@@ -165,7 +161,6 @@ fun CharacterCard(
                 color = MaterialTheme.colorScheme.outline.copy(alpha = 0.3f)
             )
 
-            // Stats rapides
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween

@@ -115,7 +115,6 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                 singleLine = true
             )
 
-            // Race Dropdown
             OutlinedTextField(
                 value = selectedRace?.name ?: "",
                 onValueChange = { },
@@ -143,7 +142,6 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                 }
             }
 
-            // Class Dropdown
             OutlinedTextField(
                 value = selectedClass?.name ?: "",
                 onValueChange = { },
@@ -166,7 +164,6 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                         onClick = {
                             selectedClass = characterClass
                             classDropdownExpanded = false
-                            // Auto-fill speed based on race
                             selectedRace?.let { speed = it.speed.toString() }
                         }
                     )
@@ -309,10 +306,8 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Bouton de création
             Button(
                 onClick = {
-                    // Validation
                     if (name.isBlank() || selectedRace == null || selectedClass == null || maxHitPoints.isBlank()) {
                         showError = true
                         errorMessage = "Please fill all required fields (*)"
@@ -358,7 +353,6 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                 Text("Create Character")
             }
 
-            // Messages d'erreur et succès
             if (showError) {
                 Card(
                     modifier = Modifier.fillMaxWidth(),

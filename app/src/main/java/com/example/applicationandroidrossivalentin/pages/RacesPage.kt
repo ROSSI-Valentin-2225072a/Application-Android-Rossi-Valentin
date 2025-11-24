@@ -84,9 +84,4 @@ fun Races(onClickHome: () -> Unit) {
             }
         }
     }
-
-    /*
-
-
-     */
 }
