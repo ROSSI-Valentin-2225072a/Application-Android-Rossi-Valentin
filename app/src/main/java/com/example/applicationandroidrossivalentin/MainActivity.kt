@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.example.applicationandroidrossivalentin.pages.CharacterClasses
+import com.example.applicationandroidrossivalentin.pages.CharacterSheetPage
 import com.example.applicationandroidrossivalentin.pages.CharacterSheets
 import com.example.applicationandroidrossivalentin.pages.CharacterSheetsCreationPage
 import com.example.applicationandroidrossivalentin.pages.Home
@@ -30,7 +31,7 @@ class DestinationSpells
 class DestinationCharacterClasses
 class DestinationRaces
 class DestinationCharacterSheetsCreation
-
+class DestinationCharacterSheetDetail(val characterId: Int)
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,11 +80,13 @@ fun Main(modifier: Modifier = Modifier) {
                             })
                         }
                         is DestinationCharacterSheets -> NavEntry(key) {
-                            CharacterSheets(onClickHome = {
-                                backStack.removeLastOrNull()
-                            }, onClickCreate = {
-                                backStack.add(DestinationCharacterSheetsCreation())
-                            })
+                            CharacterSheets(
+                                onClickHome = { backStack.removeLastOrNull() },
+                                onClickCreate = { backStack.add(DestinationCharacterSheetsCreation()) },
+                                onClickCharacter = { characterId ->
+                                    backStack.add(DestinationCharacterSheetDetail(characterId))
+                                }
+                            )
                         }
                         is DestinationSpells -> NavEntry(key) {
                             Spells(onClickHome = {
@@ -105,6 +108,12 @@ fun Main(modifier: Modifier = Modifier) {
                             CharacterSheetsCreationPage(onClickBackToHub = {
                                 backStack.removeLastOrNull()
                             })
+                        }
+                        is DestinationCharacterSheetDetail -> NavEntry(key) {
+                            CharacterSheetPage(
+                                characterId = key.characterId,
+                                onClickBack = { backStack.removeLastOrNull() }
+                            )
                         }
                         else -> throw IllegalArgumentException("Unknown key: $key")
                     }

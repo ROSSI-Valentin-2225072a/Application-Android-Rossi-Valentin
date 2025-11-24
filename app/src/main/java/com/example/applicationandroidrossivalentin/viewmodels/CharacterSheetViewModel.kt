@@ -43,4 +43,10 @@ class CharacterSheetViewModel(application: Application): AndroidViewModel(applic
         }
     }
 
+    fun deleterCharacterSheet(characterSheet: CharacterSheetEntity) {
+        viewModelScope.launch {
+            characterSheetRepository.deleteCharacterSheet(characterSheet)
+        }
+    }
+
 }
