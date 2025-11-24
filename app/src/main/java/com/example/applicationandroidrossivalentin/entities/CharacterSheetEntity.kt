@@ -2,18 +2,23 @@ package com.example.applicationandroidrossivalentin.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
-// import com.example.applicationandroidrossivalentin.data.converters.ListConverter
+import androidx.room.TypeConverters
+import com.example.applicationandroidrossivalentin.data.Converters
+import com.example.applicationandroidrossivalentin.models.CharacterClass
+import com.example.applicationandroidrossivalentin.models.Race
 
 @Entity(tableName = "character_sheets")
-//@TypeConverters(ListConverter::class)
+@TypeConverters(Converters::class)
 data class CharacterSheetEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
 
-    val name: String,
-    val race: String,
-    val characterClass: String,
+    val name: String = "",
+    val race: Race = Race(),
+    val characterClass: CharacterClass = CharacterClass(),
+    val level: Int = 1,
+    val background: String = "",
+    val alignment: String = "",
     val level: Int = 1,
     val background: String = "",
     val alignment: String = "",
@@ -26,8 +31,8 @@ data class CharacterSheetEntity(
     val wisdom: Int = 10,
     val charisma: Int = 10,
 
-    val maxHitPoints: Int,
-    val currentHitPoints: Int,
+    val maxHitPoints: Int = 1,
+    val currentHitPoints: Int = 1,
     val temporaryHitPoints: Int = 0,
 
     val armorClass: Int = 10,
@@ -81,28 +86,3 @@ data class CharacterSheetEntity(
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis()
 )
-
-// TypeConverter pour les listes (à placer dans un fichier séparé)
-/*
-package com.example.applicationandroidrossivalentin.data.converters
-
-import androidx.room.TypeConverter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-
-class ListConverter {
-    private val gson = Gson()
-
-    @TypeConverter
-    fun fromStringList(value: List<String>): String {
-        return gson.toJson(value)
-    }
-
-    @TypeConverter
-    fun toStringList(value: String): List<String> {
-        val listType = object : TypeToken<List<String>>() {}.type
-        return gson.fromJson(value, listType)
-    }
-}
-
-*/

@@ -18,6 +18,7 @@ import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.ui.NavDisplay
 import com.example.applicationandroidrossivalentin.pages.CharacterClasses
 import com.example.applicationandroidrossivalentin.pages.CharacterSheets
+import com.example.applicationandroidrossivalentin.pages.CharacterSheetsCreationPage
 import com.example.applicationandroidrossivalentin.pages.Home
 import com.example.applicationandroidrossivalentin.pages.Races
 import com.example.applicationandroidrossivalentin.pages.Spells
@@ -28,6 +29,7 @@ class DestinationCharacterSheets
 class DestinationSpells
 class DestinationCharacterClasses
 class DestinationRaces
+class DestinationCharacterSheetsCreation
 
 
 class MainActivity : ComponentActivity() {
@@ -79,6 +81,8 @@ fun Main(modifier: Modifier = Modifier) {
                         is DestinationCharacterSheets -> NavEntry(key) {
                             CharacterSheets(onClickHome = {
                                 backStack.removeLastOrNull()
+                            }, onClickCreate = {
+                                backStack.add(DestinationCharacterSheetsCreation())
                             })
                         }
                         is DestinationSpells -> NavEntry(key) {
@@ -94,6 +98,11 @@ fun Main(modifier: Modifier = Modifier) {
                         }
                         is DestinationRaces -> NavEntry(key) {
                             Races(onClickHome = {
+                                backStack.removeLastOrNull()
+                            })
+                        }
+                        is DestinationCharacterSheetsCreation -> NavEntry(key) {
+                            CharacterSheetsCreationPage(onClickBackToHub = {
                                 backStack.removeLastOrNull()
                             })
                         }
