@@ -13,9 +13,12 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -33,20 +36,30 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.applicationandroidrossivalentin.entities.CharacterSheetEntity
+import com.example.applicationandroidrossivalentin.models.CharacterClass
+import com.example.applicationandroidrossivalentin.models.Race
+import com.example.applicationandroidrossivalentin.viewmodels.CharacterClassViewModel
 import com.example.applicationandroidrossivalentin.viewmodels.CharacterSheetViewModel
+import com.example.applicationandroidrossivalentin.viewmodels.RaceViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
 
-    val viewModel = viewModel<CharacterSheetViewModel>()
+    val characterSheetViewModel = viewModel<CharacterSheetViewModel>()
+    val raceViewModel = viewModel<RaceViewModel>()
+    val classViewModel = viewModel<CharacterClassViewModel>()
 
+
+    val raceList = raceViewModel.raceList.collectAsStateWithLifecycle()
+    val classList = classViewModel.characterClassList.collectAsStateWithLifecycle()
 
     var name by remember { mutableStateOf("") }
-    var race by remember { mutableStateOf("") }
-    var characterClass by remember { mutableStateOf("") }
+    var selectedRace by remember { mutableStateOf<Race?>(null) }
+    var selectedClass by remember { mutableStateOf<CharacterClass?>(null) }
     var level by remember { mutableStateOf("1") }
     var background by remember { mutableStateOf("") }
     var alignment by remember { mutableStateOf("") }
@@ -65,6 +78,9 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
     var showError by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf("") }
     var showSuccess by remember { mutableStateOf(false) }
+
+    var raceDropdownExpanded by remember { mutableStateOf(false) }
+    var classDropdownExpanded by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -89,7 +105,6 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // Informations de base
             Text("Basic Information", style = MaterialTheme.typography.titleLarge)
 
             OutlinedTextField(
@@ -100,21 +115,63 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                 singleLine = true
             )
 
+            // Race Dropdown
             OutlinedTextField(
-                value = race,
-                onValueChange = { race = it },
+                value = selectedRace?.name ?: "",
+                onValueChange = { },
                 label = { Text("Race *") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { raceDropdownExpanded = true }) {
+                        Icon(Icons.Filled.ArrowDropDown, "Select race")
+                    }
+                }
             )
+            DropdownMenu(
+                expanded = raceDropdownExpanded,
+                onDismissRequest = { raceDropdownExpanded = false }
+            ) {
+                raceList.value.forEach { race ->
+                    DropdownMenuItem(
+                        text = { Text(race.name) },
+                        onClick = {
+                            selectedRace = race
+                            raceDropdownExpanded = false
+                        }
+                    )
+                }
+            }
 
+            // Class Dropdown
             OutlinedTextField(
-                value = characterClass,
-                onValueChange = { characterClass = it },
+                value = selectedClass?.name ?: "",
+                onValueChange = { },
                 label = { Text("Class *") },
                 modifier = Modifier.fillMaxWidth(),
-                singleLine = true
+                readOnly = true,
+                trailingIcon = {
+                    IconButton(onClick = { classDropdownExpanded = true }) {
+                        Icon(Icons.Filled.ArrowDropDown, "Select class")
+                    }
+                }
             )
+            DropdownMenu(
+                expanded = classDropdownExpanded,
+                onDismissRequest = { classDropdownExpanded = false }
+            ) {
+                classList.value.forEach { characterClass ->
+                    DropdownMenuItem(
+                        text = { Text(characterClass.name) },
+                        onClick = {
+                            selectedClass = characterClass
+                            classDropdownExpanded = false
+                            // Auto-fill speed based on race
+                            selectedRace?.let { speed = it.speed.toString() }
+                        }
+                    )
+                }
+            }
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -256,7 +313,7 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
             Button(
                 onClick = {
                     // Validation
-                    if (name.isBlank() || race.isBlank() || characterClass.isBlank() || maxHitPoints.isBlank()) {
+                    if (name.isBlank() || selectedRace == null || selectedClass == null || maxHitPoints.isBlank()) {
                         showError = true
                         errorMessage = "Please fill all required fields (*)"
                         return@Button
@@ -265,8 +322,8 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                     try {
                         val character = CharacterSheetEntity(
                             name = name.trim(),
-                            race = race.trim(),
-                            characterClass = characterClass.trim(),
+                            race = selectedRace!!,
+                            characterClass = selectedClass!!,
                             level = level.toIntOrNull() ?: 1,
                             background = background.trim(),
                             alignment = alignment.trim(),
@@ -281,10 +338,10 @@ fun CharacterSheetsCreationPage(onClickBackToHub: () -> Unit) {
                             maxHitPoints = maxHitPoints.toInt(),
                             currentHitPoints = maxHitPoints.toInt(),
                             armorClass = armorClass.toIntOrNull() ?: 10,
-                            speed = speed.toIntOrNull() ?: 30,
+                            speed = speed.toIntOrNull() ?: selectedRace?.speed ?: 30,
                         )
 
-                        viewModel.insertCharacterSheet(character)
+                        characterSheetViewModel.insertCharacterSheet(character)
                         showSuccess = true
 
                         onClickBackToHub()

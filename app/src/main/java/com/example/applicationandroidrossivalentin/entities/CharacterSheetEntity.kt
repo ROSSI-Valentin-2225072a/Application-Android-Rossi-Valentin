@@ -14,11 +14,8 @@ data class CharacterSheetEntity(
     val id: Int = 0,
 
     val name: String = "",
-    val race: Race = Race(),
-    val characterClass: CharacterClass = CharacterClass(),
-    val level: Int = 1,
-    val background: String = "",
-    val alignment: String = "",
+    val race: Race? = null,
+    val characterClass: CharacterClass? = null,
     val level: Int = 1,
     val background: String = "",
     val alignment: String = "",

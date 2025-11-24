@@ -15,6 +15,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -30,6 +31,10 @@ fun CharacterSheets(
     val viewModel = viewModel<CharacterSheetViewModel>()
     val characterSheetList = viewModel.characterSheetList.collectAsStateWithLifecycle()
     val characterSheet = viewModel.characterSheet.collectAsStateWithLifecycle()
+
+    LaunchedEffect(Unit) {
+        viewModel.getAllCharacterSheet()
+    }
 
     Scaffold(
         topBar = {
@@ -59,8 +64,7 @@ fun CharacterSheets(
             LazyColumn {
                 items(characterSheetList.value) { sheet ->
                     ListItem(
-                        headlineContent = { Text(sheet.name) },
-
+                        headlineContent = { Text(sheet.name) }
                     )
                 }
             }
