@@ -1,7 +1,6 @@
 package com.example.applicationandroidrossivalentin.repositories
 
 import android.util.Log
-import com.example.applicationandroidrossivalentin.models.ApiReference
 import com.example.applicationandroidrossivalentin.models.Spell
 import com.example.applicationandroidrossivalentin.models.Spells
 import io.ktor.client.HttpClient
@@ -13,7 +12,6 @@ import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
 import io.ktor.client.plugins.logging.SIMPLE
 import io.ktor.client.request.get
-import io.ktor.client.request.request
 import io.ktor.serialization.kotlinx.json.json
 
 class SpellRepository {

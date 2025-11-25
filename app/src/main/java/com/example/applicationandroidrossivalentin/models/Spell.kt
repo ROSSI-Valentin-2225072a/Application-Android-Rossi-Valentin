@@ -59,13 +59,13 @@ data class Spell(
     val areaOfEffect: AreaOfEffect? = null,
 
     @SerialName("school")
-    val school: ApiReference? = null,
+    val school: Reference = Reference(),
 
     @SerialName("classes")
-    val classes: List<ApiReference> = emptyList(),
+    val classes: List<Reference> = emptyList(),
 
     @SerialName("subclasses")
-    val subclasses: List<ApiReference> = emptyList(),
+    val subclasses: List<Reference> = emptyList(),
 
     @SerialName("url")
     val url: String? = null,
@@ -86,7 +86,7 @@ data class AreaOfEffect(
 @Serializable
 data class Damage(
     @SerialName("damage_type")
-    val damageType: ApiReference? = null,
+    val damageType: Reference? = null,
 
     @SerialName("damage_at_slot_level")
     val damageAtSlotLevel: Map<String, String>? = null,
@@ -98,22 +98,10 @@ data class Damage(
 @Serializable
 data class Dc(
     @SerialName("dc_type")
-    val dcType: ApiReference? = null,
+    val dcType: Reference? = null,
 
     @SerialName("dc_success")
     val dcSuccess: String = ""
-)
-
-@Serializable
-data class ApiReference(
-    @SerialName("index")
-    val index: String = "",
-
-    @SerialName("name")
-    val name: String = "",
-
-    @SerialName("url")
-    val url: String = ""
 )
 
 @Serializable

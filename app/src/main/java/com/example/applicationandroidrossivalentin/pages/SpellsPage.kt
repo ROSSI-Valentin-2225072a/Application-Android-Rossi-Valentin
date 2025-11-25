@@ -1,21 +1,27 @@
 package com.example.applicationandroidrossivalentin.pages
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.ListItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -28,10 +34,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.applicationandroidrossivalentin.composants.SpellCard
+import com.example.applicationandroidrossivalentin.composants.SpellDetailRow
 import com.example.applicationandroidrossivalentin.composants.SpellLevelFilter
 import com.example.applicationandroidrossivalentin.viewmodels.SpellViewModel
 
@@ -69,7 +79,7 @@ fun Spells(onClickHome: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Spells") },
+                title = { Text("Spell Compendium") },
                 navigationIcon = {
                     IconButton(onClick = onClickHome) {
                         Icon(
@@ -123,17 +133,42 @@ fun Spells(onClickHome: () -> Unit) {
                 )
             }
 
-            LazyColumn {
-                items(filteredSpells) { spell ->
-                    ListItem(
-                        headlineContent = { Text(spell.name) },
-                        supportingContent = { Text("Level ${spell.level}") },
-                        modifier = Modifier.clickable(onClick = {
-                            showBottomSheet = true
-                            viewModel.getSpell(spell.index)
-                        })
-                    )
-                    HorizontalDivider()
+            if (filteredSpells.isEmpty()) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Text(
+                            text = "No spells found",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        )
+                        Text(
+                            text = "Try adjusting your filters",
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f)
+                        )
+                    }
+                }
+            } else {
+                LazyColumn(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                ) {
+                    items(filteredSpells) { spell ->
+                        SpellCard(
+                            spellName = spell.name,
+                            spellLevel = spell.level,
+                            onClick = {
+                                showBottomSheet = true
+                                viewModel.getSpell(spell.index)
+                            }
+                        )
+                    }
                 }
             }
 
@@ -142,14 +177,138 @@ fun Spells(onClickHome: () -> Unit) {
                     onDismissRequest = { showBottomSheet = false },
                     sheetState = sheetState
                 ) {
-                    Column(modifier = Modifier.padding(16.dp)) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .verticalScroll(rememberScrollState())
+                            .padding(24.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        // Titre
                         Text(
                             text = spellShown.value.name,
-                            modifier = Modifier.padding(bottom = 16.dp)
+                            style = MaterialTheme.typography.headlineMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.primary
                         )
+
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            if (spellShown.value.level == 0) {
+                                Text(
+                                    text = "Cantrip",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            } else {
+                                Text(
+                                    text = "Level ${spellShown.value.level}",
+                                    style = MaterialTheme.typography.titleMedium,
+                                    color = MaterialTheme.colorScheme.secondary
+                                )
+                            }
+
+                            Text(
+                                text = spellShown.value.school.name,
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
+
+                        HorizontalDivider()
+
+                        SpellDetailRow("Casting Time", spellShown.value.castingTime)
+                        SpellDetailRow("Range", spellShown.value.range)
+                        SpellDetailRow("Components", spellShown.value.components.joinToString(", "))
+                        SpellDetailRow("Duration", spellShown.value.duration)
+
+                        if (spellShown.value.concentration) {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                                )
+                            ) {
+                                Text(
+                                    text = "Requires Concentration",
+                                    modifier = Modifier.padding(12.dp),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onTertiaryContainer
+                                )
+                            }
+                        }
+
+                        if (spellShown.value.ritual) {
+                            Card(
+                                modifier = Modifier.fillMaxWidth(),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = MaterialTheme.colorScheme.secondaryContainer
+                                )
+                            ) {
+                                Text(
+                                    text = "Can be cast as a Ritual",
+                                    modifier = Modifier.padding(12.dp),
+                                    style = MaterialTheme.typography.labelLarge,
+                                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                                )
+                            }
+                        }
+
+                        HorizontalDivider()
+
+                        Text(
+                            text = "Description",
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        spellShown.value.desc.forEach { paragraph ->
+                            Text(
+                                text = paragraph,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                            )
+                        }
+
+                        if (spellShown.value.higherLevel.isNotEmpty()) {
+                            HorizontalDivider()
+
+                            Text(
+                                text = "At Higher Levels",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            spellShown.value.higherLevel.forEach { paragraph ->
+                                Text(
+                                    text = paragraph,
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                                )
+                            }
+                        }
+
+                        if (spellShown.value.classes.isNotEmpty()) {
+                            HorizontalDivider()
+
+                            Text(
+                                text = "Available to",
+                                style = MaterialTheme.typography.titleMedium,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            Text(
+                                text = spellShown.value.classes.joinToString(", ") { it.name },
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
