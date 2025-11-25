@@ -65,7 +65,6 @@ fun Races(onClickHome: () -> Unit) {
                 items(raceList.value) { race ->
                     ListItem(
                         headlineContent = { Text(race.name) },
-                        // supportingContent = { Text("Level ${race.level}") },
                         modifier = Modifier.clickable(onClick = {
                             showBottomSheet = true
                             viewModel.getRaceByIndex(race.index)
