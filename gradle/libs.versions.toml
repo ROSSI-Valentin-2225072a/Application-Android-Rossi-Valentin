@@ -20,6 +20,7 @@ kotlinxSerializationCore = "1.9.0"
 compose = "1.7.8"
 ksp = "2.2.20-2.0.4"
 room = "2.8.4"
+material3 = "1.4.0"
 
 
 [libraries]
@@ -65,6 +66,7 @@ androidx-room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "
 
 moshi = { module = "com.squareup.moshi:moshi", version.ref = "moshi" }
 moshi-kotlin = { module = "com.squareup.moshi:moshi-kotlin", version.ref = "moshiKotlin" }
+androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

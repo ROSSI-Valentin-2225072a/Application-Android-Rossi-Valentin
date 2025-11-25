@@ -17,6 +17,9 @@ data class Race(
     @SerialName("ability_bonuses")
     val abilityBonuses: List<AbilityBonuses> = emptyList(),
 
+    @SerialName("ability_bonus_options")
+    val abilityBonusOptions: AbilityBonusOptions? = AbilityBonusOptions(),
+
     @SerialName("age")
     val age: String = "",
 
@@ -34,7 +37,6 @@ data class Race(
 
     @SerialName("language_options")
     val languageOptions: LanguageOptions? = LanguageOptions(),
-
 
     @SerialName("language_desc")
     val languageDesc: String = "",
@@ -83,6 +85,16 @@ data class From(
 )
 
 @Serializable
+data class FromBonus(
+    @SerialName("option_set_type")
+    val optionsSetType: String = "",
+
+    @SerialName("options")
+    val options: List<OptionBonus> = emptyList(),
+)
+
+
+@Serializable
 data class OptionLanguage(
     @SerialName("option_type")
     val optionType: String = "",
@@ -95,4 +107,28 @@ data class OptionLanguage(
 data class Races(
     val count: Int = 0,
     val results: List<Race> = emptyList()
+)
+
+@Serializable
+data class AbilityBonusOptions(
+    @SerialName("choose")
+    val choose: Int = 0,
+
+    @SerialName("type")
+    val type: String = "",
+
+    @SerialName("from")
+    val from: FromBonus = FromBonus(),
+)
+
+@Serializable
+data class OptionBonus(
+    @SerialName("option_type")
+    val optionType: String = "",
+
+    @SerialName("ability_score")
+    val abilityScore: Reference? = null,
+
+    @SerialName("bonus")
+    val bonus: Int = 1,
 )
