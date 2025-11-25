@@ -1,13 +1,3 @@
-Bibliothèque de FROMAGE mais un peu avancé quand même
+y a tout qui marche bien normalement, ca met du temps a charger mais c'est ok
 
-l'utilisateur de l'application doit pouvoir
-- faire une liste de fromages qu'il a déja mangé
-- ajouter des fromages favoris
-- accéder à une liste de fromage
-- accéder à des informations diverses sur le fromage (origine, effet de l'affinage, description)
-- ajouter des notes perso sur certains fromages
-
-features cool à ajouter potentiellement : accordeur fromage / vin
-
-
-OU ALORS UNE APPLI DE TRACKING DE FICHE DE PERSO DND ENFAIT
+y a juste les fiches persos qu'on peut pas modifier et dont certaines données sont érronées comme la vitesse de déplacement ou le bonus de maitrise mais je crois que c'est tout
